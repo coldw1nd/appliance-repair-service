@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mirea.appliancerepair.fx.RequestDialogController"
+            stylesheets="@app.css" prefWidth="680.0" prefHeight="710.0" minWidth="620.0" minHeight="650.0">
+    <top>
+        <VBox spacing="5" styleClass="dialog-header">
+            <padding><Insets top="20" right="24" bottom="16" left="24"/></padding>
+            <Label fx:id="dialogTitle" text="Заявка на ремонт" styleClass="dialog-title" />
+            <Label text="Заполните поля. Обязательные поля отмечены звёздочкой." styleClass="subtitle" />
+        </VBox>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="form-scroll">
+            <content>
+                <GridPane hgap="12" vgap="11" styleClass="form-grid">
+                    <padding><Insets top="18" right="24" bottom="18" left="24"/></padding>
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150" prefWidth="160" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="250" />
+                    </columnConstraints>
+                    <Label text="Клиент *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <ComboBox fx:id="customerBox" promptText="Выберите клиента" maxWidth="Infinity" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="Тип техники *" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <TextField fx:id="typeField" promptText="Например, стиральная машина" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Бренд *" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <TextField fx:id="brandField" promptText="Например, Bosch" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                    <Label text="Неисправность *" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                    <TextField fx:id="issueField" promptText="Кратко опишите проблему" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                    <Label text="Описание *" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                    <TextArea fx:id="descriptionField" promptText="Подробности неисправности" prefRowCount="3" wrapText="true" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                    <Label text="Статус *" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                    <ComboBox fx:id="statusBox" maxWidth="Infinity" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                    <Label text="Приоритет *" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                    <ComboBox fx:id="priorityBox" maxWidth="Infinity" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                    <Label text="Стоимость, руб. *" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+                    <TextField fx:id="costField" promptText="Например, 4500.00" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+                    <Label text="Плановая дата" GridPane.rowIndex="8" GridPane.columnIndex="0" />
+                    <DatePicker fx:id="plannedDatePicker" promptText="Необязательно" maxWidth="Infinity" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+                    <Label text="Срочность" GridPane.rowIndex="9" GridPane.columnIndex="0" />
+                    <CheckBox fx:id="urgentCheckBox" text="Требуется срочный ремонт" GridPane.rowIndex="9" GridPane.columnIndex="1" />
+                    <Label text="Правило статусов: Новая → Диагностика → В ремонте → Завершена. Отмена возможна до начала ремонта." wrapText="true" styleClass="hint-label" GridPane.rowIndex="10" GridPane.columnIndex="1" />
+                </GridPane>
+            </content>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="dialog-actions">
+            <padding><Insets top="14" right="24" bottom="20" left="24"/></padding>
+            <Button text="Отмена" onAction="#handleCancel" cancelButton="true" />
+            <Button fx:id="saveButton" text="Сохранить" onAction="#handleSave" defaultButton="true" styleClass="button-primary" />
+        </HBox>
+    </bottom>
+</BorderPane>

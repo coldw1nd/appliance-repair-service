@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mirea.appliancerepair.fx.StatisticsController"
+            stylesheets="@app.css" prefWidth="720.0" prefHeight="550.0" minWidth="600.0" minHeight="460.0">
+    <top>
+        <VBox spacing="5" styleClass="dialog-header">
+            <padding><Insets top="22" right="26" bottom="16" left="26"/></padding>
+            <Label text="Статистика сервиса" styleClass="dialog-title" />
+            <Label text="Показатели рассчитаны по всем заявкам в базе данных." styleClass="subtitle" />
+        </VBox>
+    </top>
+    <center>
+        <GridPane hgap="12" vgap="12" styleClass="stats-grid">
+            <padding><Insets top="18" right="26" bottom="20" left="26"/></padding>
+            <columnConstraints><ColumnConstraints percentWidth="50"/><ColumnConstraints percentWidth="50"/></columnConstraints>
+            <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="0"><Label text="Всего заявок" styleClass="stat-caption"/><Label fx:id="totalRequestsLabel" text="—" styleClass="stat-value"/></VBox>
+            <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="1"><Label text="Всего клиентов" styleClass="stat-caption"/><Label fx:id="totalCustomersLabel" text="—" styleClass="stat-value"/></VBox>
+            <VBox styleClass="stat-card" GridPane.rowIndex="1" GridPane.columnIndex="0"><Label text="Новые заявки" styleClass="stat-caption"/><Label fx:id="newRequestsLabel" text="—" styleClass="stat-value"/></VBox>
+            <VBox styleClass="stat-card" GridPane.rowIndex="1" GridPane.columnIndex="1"><Label text="В работе (диагностика + ремонт)" styleClass="stat-caption"/><Label fx:id="inProgressLabel" text="—" styleClass="stat-value"/></VBox>
+            <VBox styleClass="stat-card" GridPane.rowIndex="2" GridPane.columnIndex="0"><Label text="Завершённые заявки" styleClass="stat-caption"/><Label fx:id="completedLabel" text="—" styleClass="stat-value"/></VBox>
+            <VBox styleClass="stat-card" GridPane.rowIndex="2" GridPane.columnIndex="1"><Label text="Срочные заявки" styleClass="stat-caption"/><Label fx:id="urgentLabel" text="—" styleClass="stat-value"/></VBox>
+            <VBox styleClass="stat-card" GridPane.rowIndex="3" GridPane.columnIndex="0"><Label text="Средняя оценочная стоимость" styleClass="stat-caption"/><Label fx:id="averageCostLabel" text="—" styleClass="stat-value-small"/></VBox>
+            <VBox styleClass="stat-card" GridPane.rowIndex="3" GridPane.columnIndex="1"><Label text="Сумма оценочной стоимости" styleClass="stat-caption"/><Label fx:id="totalCostLabel" text="—" styleClass="stat-value-small"/></VBox>
+        </GridPane>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" styleClass="dialog-actions"><padding><Insets top="0" right="26" bottom="22" left="26"/></padding><Button text="Закрыть" onAction="#handleClose" cancelButton="true" /></HBox>
+    </bottom>
+</BorderPane>

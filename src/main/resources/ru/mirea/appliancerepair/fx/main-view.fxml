@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mirea.appliancerepair.fx.MainController"
+            stylesheets="@app.css" prefWidth="1480.0" prefHeight="840.0" minWidth="1000.0" minHeight="650.0">
+    <top>
+        <VBox spacing="14.0" styleClass="top-area">
+            <padding><Insets top="22" right="24" bottom="16" left="24"/></padding>
+            <HBox alignment="CENTER_LEFT" spacing="16.0">
+                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                    <Label text="Сервис ремонта бытовой техники" styleClass="page-title" />
+                    <Label text="Управление заявками · клиентами · сроками ремонта" styleClass="subtitle" />
+                </VBox>
+                <Label text="JAVAFX  ·  JDBC  ·  POSTGRESQL" styleClass="tech-badge" />
+            </HBox>
+            <HBox spacing="8.0" alignment="CENTER_LEFT">
+                <Button text="＋ Новая заявка" onAction="#handleAdd" styleClass="button-primary" />
+                <Button text="Изменить" onAction="#handleEdit" />
+                <Button text="Удалить" onAction="#handleDelete" styleClass="button-danger" />
+                <Button text="Подробнее" onAction="#handleDetails" />
+                <Separator orientation="VERTICAL" />
+                <Button text="Клиенты" onAction="#handleCustomers" />
+                <Button text="Статистика" onAction="#handleStatistics" />
+                <Button text="Экспорт Excel" onAction="#handleExport" styleClass="button-secondary" />
+                <Button text="↻ Обновить" onAction="#handleRefresh" />
+            </HBox>
+        </VBox>
+    </top>
+    <center>
+        <VBox spacing="12.0" styleClass="content-area">
+            <padding><Insets top="16" right="24" bottom="10" left="24"/></padding>
+            <VBox spacing="9.0" styleClass="filter-panel">
+                <Label text="Поиск и фильтры" styleClass="section-title" />
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <TextField fx:id="searchField" promptText="Поиск по клиенту, типу техники, бренду, неисправности…" HBox.hgrow="ALWAYS" />
+                    <ComboBox fx:id="statusFilter" prefWidth="165" promptText="Статус" />
+                    <ComboBox fx:id="priorityFilter" prefWidth="150" promptText="Приоритет" />
+                    <ComboBox fx:id="urgentFilter" prefWidth="150" promptText="Срочность" />
+                    <Button text="Сбросить" onAction="#handleResetFilters" />
+                </HBox>
+            </VBox>
+            <TableView fx:id="repairTable" VBox.vgrow="ALWAYS" styleClass="repair-table">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+                <placeholder><Label text="Нет заявок по выбранным условиям. Добавьте заявку или сбросьте фильтры." /></placeholder>
+                <columns>
+                    <TableColumn fx:id="idColumn" text="№" prefWidth="55" minWidth="48" maxWidth="70" />
+                    <TableColumn fx:id="customerColumn" text="Клиент" prefWidth="160" minWidth="125" />
+                    <TableColumn fx:id="typeColumn" text="Техника" prefWidth="145" minWidth="100" />
+                    <TableColumn fx:id="brandColumn" text="Бренд" prefWidth="90" minWidth="72" />
+                    <TableColumn fx:id="issueColumn" text="Неисправность" prefWidth="155" minWidth="115" />
+                    <TableColumn fx:id="statusColumn" text="Статус" prefWidth="115" minWidth="95" />
+                    <TableColumn fx:id="priorityColumn" text="Приоритет" prefWidth="100" minWidth="85" />
+                    <TableColumn fx:id="costColumn" text="Стоимость, ₽" prefWidth="100" minWidth="88" />
+                    <TableColumn fx:id="dateColumn" text="Плановая дата" prefWidth="110" minWidth="95" />
+                    <TableColumn fx:id="urgentColumn" text="Срочная" prefWidth="78" minWidth="65" maxWidth="100" />
+                    <TableColumn fx:id="createdColumn" text="Создана" prefWidth="140" minWidth="120" />
+                </columns>
+            </TableView>
+            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="status-bar">
+                <Label fx:id="recordsLabel" text="Заявок: 0" styleClass="records-count" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="Сортировка: нажмите на заголовок столбца таблицы" styleClass="hint-label" />
+                <Label fx:id="connectionLabel" text="Проверка БД…" styleClass="connection-label" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

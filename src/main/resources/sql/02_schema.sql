@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS repair_requests (
     issue_description VARCHAR(1000) NOT NULL,
     status VARCHAR(30) NOT NULL,
     priority VARCHAR(20) NOT NULL,
-    estimated_cost NUMERIC(12, 2) NOT NULL CHECK (estimated_cost >= 0 AND estimated_cost <= 1000000),
+    estimated_cost NUMERIC(12, 2) NOT NULL
+        CHECK (estimated_cost >= 0 AND estimated_cost <= 1000000),
     planned_date DATE,
     urgent BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

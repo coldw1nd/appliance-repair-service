@@ -6,8 +6,10 @@ INSERT INTO customers (full_name, phone, email, address) VALUES
 ('Смирнов Дмитрий Викторович', '+7-900-555-55-55', 'smirnov@example.com', 'г. Москва, ул. Полевая, д. 42')
 ON CONFLICT (email) DO NOTHING;
 
-INSERT INTO repair_requests (customer_id, appliance_type, appliance_brand, issue_title, issue_description, status, priority, estimated_cost, planned_date, urgent)
-SELECT c.id, v.appliance_type, v.appliance_brand, v.issue_title, v.issue_description, v.status, v.priority, v.estimated_cost, v.planned_date, v.urgent
+INSERT INTO repair_requests
+(customer_id, appliance_type, appliance_brand, issue_title, issue_description, status, priority, estimated_cost, planned_date, urgent)
+SELECT c.id, v.appliance_type, v.appliance_brand, v.issue_title, v.issue_description, v.status, v.priority,
+       v.estimated_cost, v.planned_date, v.urgent
 FROM (VALUES
     ('ivanov@example.com', 'Стиральная машина', 'Bosch', 'Не сливает воду', 'После стирки вода остается в баке.', 'NEW', 'HIGH', 4500.00, CURRENT_DATE + 1, TRUE),
     ('petrova@example.com', 'Холодильник', 'LG', 'Не охлаждает', 'Температура в камере повышается.', 'DIAGNOSING', 'URGENT', 7000.00, CURRENT_DATE + 2, TRUE),
@@ -21,4 +23,6 @@ FROM (VALUES
     ('smirnov@example.com', 'Духовой шкаф', 'Haier', 'Ошибка нагрева', 'Появляется ошибка при включении нагрева.', 'COMPLETED', 'MEDIUM', 6100.00, CURRENT_DATE - 1, FALSE)
 ) AS v(email, appliance_type, appliance_brand, issue_title, issue_description, status, priority, estimated_cost, planned_date, urgent)
 JOIN customers c ON c.email = v.email
-WHERE NOT EXISTS (SELECT 1 FROM repair_requests r WHERE r.issue_title = v.issue_title AND r.customer_id = c.id);
+WHERE NOT EXISTS (
+    SELECT 1 FROM repair_requests r WHERE r.issue_title = v.issue_title AND r.customer_id = c.id
+);

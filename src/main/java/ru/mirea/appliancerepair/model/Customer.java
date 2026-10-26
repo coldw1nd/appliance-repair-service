@@ -61,4 +61,9 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return fullName + " · " + phone;
+    }
 }

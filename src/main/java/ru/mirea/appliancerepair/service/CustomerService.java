@@ -20,8 +20,15 @@ public class CustomerService {
         try {
             return repository.create(customer);
         } catch (SQLException e) {
-            if (e.getMessage() != null && e.getMessage().contains("customers_email_key")) {
-                throw new BusinessException("Клиент с таким email уже существует");
+            if ("23505".equals(e.getSQLState())) {
+                String message = e.getMessage() == null ? "" : e.getMessage();
+                if (message.contains("customers_email_key")) {
+                    throw new BusinessException("Клиент с таким email уже существует");
+                }
+                if (message.contains("customers_phone_key")) {
+                    throw new BusinessException("Клиент с таким телефоном уже существует");
+                }
+                throw new BusinessException("Клиент с такими уникальными данными уже существует");
             }
             throw e;
         }
@@ -39,14 +46,27 @@ public class CustomerService {
         if (customer.getFullName() == null || customer.getFullName().isBlank()) {
             throw new BusinessException("ФИО клиента не может быть пустым");
         }
+        if (customer.getFullName().length() > 120) {
+            throw new BusinessException("ФИО клиента не должно превышать 120 символов");
+        }
         if (customer.getPhone() == null || customer.getPhone().isBlank()) {
             throw new BusinessException("Телефон клиента не может быть пустым");
         }
-        if (customer.getEmail() == null || customer.getEmail().isBlank() || !customer.getEmail().contains("@")) {
-            throw new BusinessException("Укажите корректный email клиента");
+        if (customer.getPhone().length() > 30) {
+            throw new BusinessException("Телефон клиента не должен превышать 30 символов");
+        }
+        if (customer.getEmail() == null || customer.getEmail().isBlank()
+                || !customer.getEmail().matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
+            throw new BusinessException("Укажите корректный email клиента (например, name@example.com)");
+        }
+        if (customer.getEmail().length() > 150) {
+            throw new BusinessException("Email клиента не должен превышать 150 символов");
         }
         if (customer.getAddress() == null || customer.getAddress().isBlank()) {
             throw new BusinessException("Адрес клиента не может быть пустым");
+        }
+        if (customer.getAddress().length() > 250) {
+            throw new BusinessException("Адрес клиента не должен превышать 250 символов");
         }
     }
 }

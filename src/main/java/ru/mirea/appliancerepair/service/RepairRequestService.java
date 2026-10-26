@@ -28,7 +28,7 @@ public class RepairRequestService {
     }
 
     public RepairRequest create(RepairRequest request) throws SQLException {
-        validateCommon(request);
+        validateCommon(request, null);
         validateCustomer(request.getCustomerId());
         request.setStatus(RequestStatus.NEW);
         request.setCreatedAt(LocalDateTime.now());
@@ -45,7 +45,7 @@ public class RepairRequestService {
 
     public void update(RepairRequest request) throws SQLException {
         RepairRequest current = requireById(request.getId());
-        validateCommon(request);
+        validateCommon(request, current);
         validateCustomer(request.getCustomerId());
         validateStatusTransition(current.getStatus(), request.getStatus());
         repository.update(request);
@@ -84,21 +84,33 @@ public class RepairRequestService {
         return requests.stream().sorted(Comparator.comparing(RepairRequest::getEstimatedCost).reversed()).toList();
     }
 
-    private void validateCommon(RepairRequest request) {
+    private void validateCommon(RepairRequest request, RepairRequest previous) {
         if (request.getCustomerId() == null) {
             throw new BusinessException("Необходимо выбрать клиента");
         }
         if (request.getApplianceType() == null || request.getApplianceType().isBlank()) {
             throw new BusinessException("Тип бытовой техники не может быть пустым");
         }
+        if (request.getApplianceType().length() > 80) {
+            throw new BusinessException("Тип бытовой техники не должен превышать 80 символов");
+        }
         if (request.getApplianceBrand() == null || request.getApplianceBrand().isBlank()) {
             throw new BusinessException("Бренд бытовой техники не может быть пустым");
+        }
+        if (request.getApplianceBrand().length() > 80) {
+            throw new BusinessException("Бренд бытовой техники не должен превышать 80 символов");
         }
         if (request.getIssueTitle() == null || request.getIssueTitle().isBlank()) {
             throw new BusinessException("Название неисправности не может быть пустым");
         }
+        if (request.getIssueTitle().length() > 200) {
+            throw new BusinessException("Название неисправности не должно превышать 200 символов");
+        }
         if (request.getIssueDescription() == null || request.getIssueDescription().isBlank()) {
             throw new BusinessException("Описание неисправности не может быть пустым");
+        }
+        if (request.getIssueDescription().length() > 1000) {
+            throw new BusinessException("Описание неисправности не должно превышать 1000 символов");
         }
         if (request.getStatus() == null) {
             throw new BusinessException("Статус заявки не указан");
@@ -109,7 +121,11 @@ public class RepairRequestService {
         if (request.getEstimatedCost() == null || request.getEstimatedCost().compareTo(BigDecimal.ZERO) < 0 || request.getEstimatedCost().compareTo(new BigDecimal("1000000")) > 0) {
             throw new BusinessException("Ориентировочная стоимость должна быть от 0 до 1000000");
         }
-        if (request.getPlannedDate() != null && request.getPlannedDate().isBefore(LocalDate.now())) {
+        if (request.getEstimatedCost().stripTrailingZeros().scale() > 2) {
+            throw new BusinessException("Стоимость можно указать максимум с двумя знаками после запятой");
+        }
+        if (request.getPlannedDate() != null && request.getPlannedDate().isBefore(LocalDate.now())
+                && (previous == null || !Objects.equals(request.getPlannedDate(), previous.getPlannedDate()))) {
             throw new BusinessException("Плановая дата не может быть в прошлом");
         }
         if (request.isUrgent() && request.getPriority() != Priority.URGENT && request.getPriority() != Priority.HIGH) {
