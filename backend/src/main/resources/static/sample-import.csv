@@ -1,0 +1,3 @@
+externalId,customerId,applianceType,applianceBrand,issueTitle,issueDescription,status,priority,estimatedCost,plannedDate,urgent,tags
+DEMO-REPAIR-2026-001,1,Холодильник,Indesit,Посторонний шум,Во время работы появился сильный шум,NEW,HIGH,3900.00,2026-12-05,false,диагностика|демо
+DEMO-REPAIR-2026-002,2,Стиральная машина,LG,Не набирает воду,Машина не начинает цикл стирки,DIAGNOSING,URGENT,5200.00,2026-12-06,true,срочно|демо

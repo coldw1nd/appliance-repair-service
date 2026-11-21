@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:appliance_repair_test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+app:
+  jwt:
+    secret-base64: dGVzdC1zZWNyZXQtd2l0aC1hdC1sZWFzdC1mb3J0eS1ieXRlcy1rZXktdGVzdA==
+    issuer: appliance-repair-test
+    access-minutes: 10
+    refresh-days: 14
+  bootstrap:
+    email: admin@test.local
+    name: Test Administrator
+    password: Test!Service123456
+  cors:
+    allowed-origins: http://localhost:8080
+  cookie-secure: false
+  permanent-delete-enabled: true
+  import-limits:
+    max-rows: 5000
